@@ -1,7 +1,12 @@
-FROM python:3.5
-RUN pip install Flask==0.11.1 redis==2.10.5
-RUN useradd -ms /bin/bash admin
-USER admin
-COPY app /app
-WORKDIR /app
-CMD ["python", "app.py"] 
+  FROM centos: latest
+  MAINTAINER prafulkaware2547@gmail.com
+  RUN yum install -y httpd \
+   zip \
+   unzip
+  ADD https://www.free-css.com/assets/files/free-css-templates/download/page254/photogenic.zip /var/www/html/
+  WORKDIR /var/www/html
+  RUN unzip photogenic.zip
+  RUN cp -rvf photogenic/* .
+  RUN rm -rf photogenic photogenic.zip
+  CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]
+  EXPOSE 80
